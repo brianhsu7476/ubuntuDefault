@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ -z $1 ]]; then echo 'usage: copy.sh fileName'; exit 1; fi
+isC=0
+if [[ $1 =~ .*\.cpp ]] || [[ $1 =~ .*\.c ]]; then isC=1; fi
+
+dir='tmp1048576'
+if [[ -d $dir ]]; then rm -rf $dir; fi
+
+mkdir $dir
+file="$dir/test"
+cp $1 $file
+isC=0
+if [[ $isC == 1 ]]; then
+	echo '/*' >> $file
+	echo 'Author: Brian_Hsu' >> $file
+	date >> $file
+	echo '*/' >> $file
+fi
+xclip -sel c < $file
+rm -rf $dir
